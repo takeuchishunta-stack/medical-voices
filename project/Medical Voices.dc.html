@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  body { margin:0; background:#ffffff; font-family:'Noto Sans JP',sans-serif; color:#0f172a; -webkit-font-smoothing:antialiased; }
+  a { color:#1d4ed8; text-decoration:none; }
+  a:hover { color:#1e40af; }
+  * { box-sizing:border-box; }
+</style>
+</helmet>
+
+<header style="position:sticky; top:0; z-index:50; background:#ffffff; border-bottom:1px solid #eef2f7; padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:64px">
+  <div style="display:flex; align-items:center; gap:10px; cursor:pointer" onClick="{{ goHome }}">
+    <div style="width:34px; height:34px; border-radius:9px; background:#1d4ed8; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:18px">M</div>
+    <div style="font-weight:900; font-size:19px; letter-spacing:-0.02em">Medical Voices</div>
+  </div>
+  <nav style="display:flex; gap:32px; align-items:center; font-size:14px">
+    <div onClick="{{ goHome }}" style="cursor:pointer; padding:20px 0; font-weight:{{ navHomeWeight }}; color:{{ navHomeColor }}; border-bottom:2px solid {{ navHomeBorder }}">インタビュー記事</div>
+    <div onClick="{{ goAbout }}" style="cursor:pointer; padding:20px 0; font-weight:{{ navAboutWeight }}; color:{{ navAboutColor }}; border-bottom:2px solid {{ navAboutBorder }}">掲載について</div>
+    <div onClick="{{ goMedia }}" style="cursor:pointer; padding:20px 0; font-weight:{{ navMediaWeight }}; color:{{ navMediaColor }}; border-bottom:2px solid {{ navMediaBorder }}">メディア概要</div>
+  </nav>
+  <div onClick="{{ goAbout }}" style="background:#1d4ed8; color:#fff; font-size:13.5px; font-weight:700; padding:10px 20px; border-radius:8px; cursor:pointer" style-hover="background:#1e40af">掲載依頼・相談</div>
+</header>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <section style="background:#f8fafc; border-bottom:1px solid #eef2f7; padding:88px 24px 96px; text-align:center">
+    <div style="display:inline-flex; align-items:center; gap:8px; background:#e3ecfd; color:#1d4ed8; font-size:13px; font-weight:700; padding:7px 16px; border-radius:999px">
+      <span style="width:6px; height:6px; border-radius:50%; background:#1d4ed8; display:inline-block"></span>
+      経営者のためのメディア
+    </div>
+    <h1 style="font-size:52px; font-weight:900; letter-spacing:-0.02em; line-height:1.35; margin:28px 0 24px">医療の未来を創る、<br>経営者の声を届ける。</h1>
+    <p style="max-width:640px; margin:0 auto; font-size:16px; line-height:1.9; color:#64748b">日本全国の先進的なクリニック・医療法人の経営者にフォーカス。成功の裏側にある戦略と想いを共有し、より良い医療環境の構築を支援します。</p>
+  </section>
+
+  <section style="max-width:1120px; margin:0 auto; padding:48px 24px 0">
+    <div style="display:flex; gap:32px; border-bottom:1px solid #e2e8f0">
+      <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="5">
+        <div onClick="{{ tab.select }}" style="cursor:pointer; padding:0 2px 14px; font-size:14.5px; font-weight:{{ tab.weight }}; color:{{ tab.color }}; border-bottom:2px solid {{ tab.border }}; margin-bottom:-1px">{{ tab.label }}</div>
+      </sc-for>
+    </div>
+  </section>
+
+  <sc-if value="{{ showFeatured }}" hint-placeholder-val="{{ true }}">
+    <section style="max-width:1120px; margin:0 auto; padding:36px 24px 0; display:grid; grid-template-columns:1fr 1fr; gap:28px">
+      <sc-for list="{{ featured }}" as="a" hint-placeholder-count="2">
+        <div onClick="{{ a.open }}" style="cursor:pointer; position:relative; border-radius:16px; overflow:hidden; background:#fff; display:flex; flex-direction:column">
+          <div style="position:relative; width:100%; height:340px; flex:0 0 340px; background:#f1f5f9">
+            <sc-if value="{{ a.hasPhoto }}" hint-placeholder-val="{{ false }}">
+              <div style="{{ a.coverStyle }}"></div>
+            </sc-if>
+            <sc-if value="{{ a.noPhoto }}" hint-placeholder-val="{{ true }}">
+              <image-slot id="{{ a.imgId }}" shape="rect" placeholder="{{ a.imgHint }}"></image-slot>
+            </sc-if>
+            <sc-if value="{{ a.showBadge }}" hint-placeholder-val="{{ true }}">
+              <div style="position:absolute; top:16px; left:16px; background:#fff; border-radius:999px; padding:6px 14px; font-size:12px; font-weight:700; display:flex; align-items:center; gap:6px; pointer-events:none; box-shadow:0 1px 4px rgba(15,23,42,0.12)">
+                <span style="width:6px; height:6px; border-radius:50%; background:#f97316; display:inline-block"></span>
+                {{ a.badge }}
+              </div>
+            </sc-if>
+          </div>
+          <div style="flex:1; padding:22px 24px 26px; background:#fff; border:1px solid #eef2f7; border-top:none; border-radius:0 0 16px 16px">
+            <div style="font-size:12px; font-weight:700; color:#1d4ed8; margin-bottom:8px">{{ a.category }}</div>
+            <div style="font-size:20px; font-weight:900; line-height:1.5; letter-spacing:-0.01em">{{ a.title }}</div>
+            <div style="display:flex; align-items:center; gap:10px; margin-top:16px; font-size:13px; color:#64748b">
+              <div style="width:32px; height:32px; flex:0 0 32px; border-radius:50%; overflow:hidden; background:#e3ecfd; color:#1d4ed8; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:13px">
+                <sc-if value="{{ a.hasPhoto }}" hint-placeholder-val="{{ false }}">
+                  <div style="{{ a.avatarStyle }}"></div>
+                </sc-if>
+                <sc-if value="{{ a.noPhoto }}" hint-placeholder-val="{{ true }}">{{ a.initial }}</sc-if>
+              </div>
+              <div><span style="font-weight:700; color:#0f172a">{{ a.person }}</span>　{{ a.org }}</div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </section>
+  </sc-if>
+
+  <section style="max-width:1120px; margin:0 auto; padding:40px 24px 72px; display:grid; grid-template-columns:repeat(3,1fr); gap:28px">
+    <sc-for list="{{ articles }}" as="a" hint-placeholder-count="6">
+      <div onClick="{{ a.open }}" style="cursor:pointer; border:1px solid #eef2f7; border-radius:14px; overflow:hidden; background:#fff" style-hover="box-shadow:0 8px 24px rgba(15,23,42,0.08)">
+        <div style="width:100%; height:190px">
+          <sc-if value="{{ a.hasPhoto }}" hint-placeholder-val="{{ false }}">
+            <div style="{{ a.coverStyle }}"></div>
+          </sc-if>
+          <sc-if value="{{ a.noPhoto }}" hint-placeholder-val="{{ true }}">
+            <image-slot id="{{ a.imgId }}" shape="rect" placeholder="{{ a.imgHint }}"></image-slot>
+          </sc-if>
+        </div>
+        <div style="padding:18px 20px 22px">
+          <div style="font-size:11.5px; font-weight:700; color:#1d4ed8; margin-bottom:7px">{{ a.category }}</div>
+          <div style="font-size:16px; font-weight:700; line-height:1.55">{{ a.title }}</div>
+          <div style="font-size:12.5px; color:#64748b; margin-top:12px"><span style="font-weight:700; color:#334155">{{ a.person }}</span>　{{ a.org }}</div>
+        </div>
+      </div>
+    </sc-for>
+  </section>
+
+  <sc-if value="{{ showCta }}" hint-placeholder-val="{{ true }}">
+    <section style="background:#0f172a; color:#fff; text-align:center; padding:72px 24px">
+      <div style="font-size:28px; font-weight:900; letter-spacing:-0.01em">貴院の取り組みを、次の世代へ。</div>
+      <p style="color:#94a3b8; font-size:15px; line-height:1.9; max-width:560px; margin:16px auto 28px">Medical Voices では掲載を希望される医療法人・クリニックを募集しています。まずはお気軽にご相談ください。</p>
+      <div onClick="{{ goAbout }}" style="display:inline-block; background:#1d4ed8; color:#fff; font-weight:700; font-size:14.5px; padding:13px 32px; border-radius:8px; cursor:pointer" style-hover="background:#2563eb">掲載依頼・相談する</div>
+    </section>
+  </sc-if>
+</sc-if>
+
+<sc-if value="{{ isArticle }}" hint-placeholder-val="{{ false }}">
+  <article style="max-width:760px; margin:0 auto; padding:48px 24px 80px">
+    <div onClick="{{ goHome }}" style="font-size:13.5px; color:#64748b; cursor:pointer; margin-bottom:28px" style-hover="color:#1d4ed8">← インタビュー記事一覧へ戻る</div>
+    <div style="font-size:13px; font-weight:700; color:#1d4ed8; margin-bottom:12px">{{ cur.category }}</div>
+    <h1 style="font-size:32px; font-weight:900; line-height:1.5; letter-spacing:-0.01em; margin:0 0 20px">{{ cur.title }}</h1>
+    <div style="display:flex; align-items:center; gap:12px; padding-bottom:28px; border-bottom:1px solid #eef2f7; margin-bottom:32px">
+      <div style="width:44px; height:44px; flex:0 0 44px; border-radius:50%; overflow:hidden; background:#e3ecfd; color:#1d4ed8; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:17px">
+        <sc-if value="{{ cur.hasPhoto }}" hint-placeholder-val="{{ false }}">
+          <div style="{{ cur.avatarStyle }}"></div>
+        </sc-if>
+        <sc-if value="{{ cur.noPhoto }}" hint-placeholder-val="{{ true }}">{{ cur.initial }}</sc-if>
+      </div>
+      <div>
+        <div style="font-size:14.5px; font-weight:700">{{ cur.person }}</div>
+        <div style="font-size:12.5px; color:#64748b">{{ cur.org }}／{{ cur.date }}</div>
+      </div>
+    </div>
+    <div style="width:100%; height:460px; border-radius:14px; overflow:hidden; margin-bottom:36px; background:#f1f5f9">
+      <sc-if value="{{ cur.hasPhoto }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ cur.heroStyle }}"></div>
+      </sc-if>
+      <sc-if value="{{ cur.noPhoto }}" hint-placeholder-val="{{ true }}">
+        <image-slot id="{{ cur.imgId }}" shape="rect" placeholder="{{ cur.imgHint }}"></image-slot>
+      </sc-if>
+    </div>
+    <p style="font-size:15.5px; line-height:2.1; color:#334155">{{ cur.lead }}</p>
+    <sc-for list="{{ curBody }}" as="qa" hint-placeholder-count="3">
+      <div style="margin-top:36px">
+        <div style="display:flex; gap:12px; align-items:baseline; margin-bottom:14px">
+          <span style="flex:0 0 auto; font-weight:900; color:#1d4ed8; font-size:15px">Q.</span>
+          <span style="font-size:17px; font-weight:700; line-height:1.7">{{ qa.q }}</span>
+        </div>
+        <p style="font-size:15.5px; line-height:2.1; color:#334155; margin:0">{{ qa.a }}</p>
+      </div>
+    </sc-for>
+    <sc-for list="{{ curSections }}" as="sec" hint-placeholder-count="0">
+      <div style="margin-top:44px">
+        <h2 style="font-size:22px; font-weight:900; line-height:1.6; letter-spacing:-0.01em; margin:0 0 20px; padding-left:14px; border-left:4px solid #1d4ed8">{{ sec.heading }}</h2>
+        <sc-for list="{{ sec.blocks }}" as="b" hint-placeholder-count="0">
+          <sc-if value="{{ b.isQuote }}" hint-placeholder-val="{{ false }}">
+            <blockquote style="margin:24px 0; background:#f8fafc; border-radius:12px; padding:22px 26px; font-size:16.5px; font-weight:500; line-height:2; color:#0f172a">{{ b.text }}</blockquote>
+          </sc-if>
+          <sc-if value="{{ b.isPara }}" hint-placeholder-val="{{ true }}">
+            <p style="font-size:15.5px; line-height:2.1; color:#334155; margin:0 0 20px">{{ b.text }}</p>
+          </sc-if>
+        </sc-for>
+      </div>
+    </sc-for>
+    <div style="margin-top:48px; background:#f8fafc; border:1px solid #eef2f7; border-radius:14px; padding:24px 28px">
+      <div style="font-size:13px; font-weight:700; color:#64748b; margin-bottom:8px">PROFILE</div>
+      <div style="font-size:14.5px; font-weight:700">{{ cur.person }}（{{ cur.org }}）</div>
+      <p style="font-size:13.5px; color:#64748b; line-height:1.9; margin:8px 0 0">{{ cur.profile }}</p>
+    </div>
+  </article>
+</sc-if>
+
+<sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+  <section style="max-width:760px; margin:0 auto; padding:64px 24px 80px">
+    <div style="font-size:13px; font-weight:700; color:#1d4ed8; margin-bottom:12px">掲載について</div>
+    <h1 style="font-size:34px; font-weight:900; letter-spacing:-0.01em; margin:0 0 20px">掲載のご依頼・ご相談</h1>
+    <p style="font-size:15.5px; line-height:2; color:#334155">Medical Voices では、先進的な取り組みを行う医療法人・クリニックの経営者インタビューを随時掲載しています。取材から記事制作・公開まで、編集部が一貫してサポートします。</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; margin:36px 0 44px">
+      <div style="border:1px solid #eef2f7; border-radius:12px; padding:22px">
+        <div style="font-size:22px; font-weight:900; color:#1d4ed8">01</div>
+        <div style="font-weight:700; margin:10px 0 6px">お問い合わせ</div>
+        <div style="font-size:13px; color:#64748b; line-height:1.8">フォームより掲載希望の旨をご連絡ください。</div>
+      </div>
+      <div style="border:1px solid #eef2f7; border-radius:12px; padding:22px">
+        <div style="font-size:22px; font-weight:900; color:#1d4ed8">02</div>
+        <div style="font-weight:700; margin:10px 0 6px">取材・撮影</div>
+        <div style="font-size:13px; color:#64748b; line-height:1.8">オンラインまたは訪問にてインタビューを実施します。</div>
+      </div>
+      <div style="border:1px solid #eef2f7; border-radius:12px; padding:22px">
+        <div style="font-size:22px; font-weight:900; color:#1d4ed8">03</div>
+        <div style="font-weight:700; margin:10px 0 6px">記事公開</div>
+        <div style="font-size:13px; color:#64748b; line-height:1.8">ご確認をいただいたのち、記事を公開します。</div>
+      </div>
+    </div>
+    <div style="background:#f8fafc; border:1px solid #eef2f7; border-radius:14px; padding:32px; display:flex; flex-direction:column; gap:16px">
+      <div style="font-size:17px; font-weight:900">お問い合わせフォーム</div>
+      <input placeholder="法人・クリニック名" style="border:1px solid #dbe3ee; border-radius:8px; padding:12px 14px; font-size:14px; font-family:inherit">
+      <input placeholder="ご担当者名" style="border:1px solid #dbe3ee; border-radius:8px; padding:12px 14px; font-size:14px; font-family:inherit">
+      <input placeholder="メールアドレス" style="border:1px solid #dbe3ee; border-radius:8px; padding:12px 14px; font-size:14px; font-family:inherit">
+      <textarea placeholder="ご相談内容" rows="4" style="border:1px solid #dbe3ee; border-radius:8px; padding:12px 14px; font-size:14px; font-family:inherit; resize:vertical"></textarea>
+      <div onClick="{{ submitContact }}" style="background:#1d4ed8; color:#fff; text-align:center; font-weight:700; font-size:14.5px; padding:13px; border-radius:8px; cursor:pointer" style-hover="background:#1e40af">{{ contactLabel }}</div>
+    </div>
+  </section>
+</sc-if>
+
+<sc-if value="{{ isMedia }}" hint-placeholder-val="{{ false }}">
+  <section style="max-width:760px; margin:0 auto; padding:64px 24px 80px">
+    <div style="font-size:13px; font-weight:700; color:#1d4ed8; margin-bottom:12px">メディア概要</div>
+    <h1 style="font-size:34px; font-weight:900; letter-spacing:-0.01em; margin:0 0 20px">Medical Voices とは</h1>
+    <p style="font-size:15.5px; line-height:2; color:#334155">Medical Voices は、医療法人・クリニックの経営者の声を届けるインタビューメディアです。経営戦略、組織づくり、地域医療への想い——現場のリアルな知見を発信し、医療業界全体の発展に貢献します。</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid #eef2f7; border-radius:12px; overflow:hidden; margin-top:36px; font-size:14px">
+      <div style="padding:16px 20px; background:#f8fafc; font-weight:700; border-bottom:1px solid #eef2f7">メディア名</div>
+      <div style="padding:16px 20px; border-bottom:1px solid #eef2f7">Medical Voices（メディカルボイス）</div>
+      <div style="padding:16px 20px; background:#f8fafc; font-weight:700; border-bottom:1px solid #eef2f7">対象</div>
+      <div style="padding:16px 20px; border-bottom:1px solid #eef2f7">医療法人・クリニックの経営者、医療従事者</div>
+      <div style="padding:16px 20px; background:#f8fafc; font-weight:700; border-bottom:1px solid #eef2f7">主なテーマ</div>
+      <div style="padding:16px 20px; border-bottom:1px solid #eef2f7">DX / 経営戦略、ホスピタリティ、在宅医療、自由診療</div>
+      <div style="padding:16px 20px; background:#f8fafc; font-weight:700">運営</div>
+      <div style="padding:16px 20px">Medical Voices 編集部</div>
+    </div>
+  </section>
+</sc-if>
+
+<footer style="border-top:1px solid #eef2f7; padding:32px 40px; display:flex; align-items:center; justify-content:space-between; color:#94a3b8; font-size:12.5px">
+  <div style="display:flex; align-items:center; gap:8px">
+    <div style="width:22px; height:22px; border-radius:6px; background:#1d4ed8; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:12px">M</div>
+    <span style="font-weight:700; color:#334155">Medical Voices</span>
+  </div>
+  <div>© 2026 Medical Voices 編集部</div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showBadges&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;表示&quot;},&quot;showFeatured&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;表示&quot;},&quot;showCta&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;表示&quot;}}">
+class Component extends DCLogic {
+  state = { view: 'home', tab: 'すべて', articleId: null };
+
+  data = [
+    { id: 'hoshiiro', featured: true, badge: 'New', category: '小児歯科・矯正',
+      title: '「天然の歯に勝る治療は、ありません」——51歳で選んだ、子どもの歯を守る場所',
+      person: '武井 新吾 院長', org: 'ほしいろ歯科こども歯科クリニック', date: '2026.08.27',
+      photo: './assets/takei.jpg',
+      lead: '高校を卒業して大工の道へ進み、30代で歯学部に入り直し、51歳で自分の医院を開く。兵庫県尼崎市で子どもに特化した歯科クリニックを営む武井新吾さんの経歴は、ひと言では説明しづらいものです。回り道のようにも見えるその道のりと、開院から1年を経て見据えているものを伺いました。',
+      profile: '高校卒業後、大工として働く。30代で大学に入学し、2013年に卒業。歯科口腔外科を専門とし、研修を経て愛知・静岡の関連病院に勤務。2025年6月、兵庫県尼崎市三反田町に妹とともに「ほしいろ歯科こども歯科クリニック」を開院。小児歯科・小児矯正・予防歯科を中心に、保育士による託児や個室診療など、子どもと保護者が通いやすい体制を整えている。',
+      body: [],
+      sections: [
+        { heading: 'お母さんが来やすいことから、すべてを設計した', blocks: [
+          { text: 'ほしいろ歯科こども歯科クリニックが尼崎市三反田町に開院したのは、2025年6月のことです。院長の武井さんと、妹さんの歯科医師2人に、歯科衛生士2人、受付3人という体制で運営しています。' },
+          { q: '「子ども向けの歯科と名付けているくらいなので、お子さんに来ていただきたい気持ちはもちろんあります。ただ、実際に足を運ばれるのはお母さんなんですよね」' },
+          { text: 'だから医院の設計は、お母さんがストレスなく来られることを軸に組み立てられました。診療室は個室。子どもは治療となると大きな声を出してしまうこともありますが、個室であれば気兼ねなく通えます。ベビーカーのまま入れるバリアフリー構造。駐車場は9台分。そして受付3人のうち2人は保育士の資格を持っています。' },
+          { text: '小さい子どもがいると、お母さん自身はなかなか歯科医院に行けません。武井さんの医院では、その時間に保育士が子どもを預かり、お母さんが治療を受けられるようにしています。' } ] },
+        { heading: '妻と子どもを見ていて、この層に決めた', blocks: [
+          { text: '対象を子どもとその親御さんに定めたのは、ちょうど自分の子どもがその年頃だったからでした。上のお子さんが7歳、下が5歳。妻の様子を間近で見てきたことが、そのまま判断材料になったといいます。' },
+          { q: '「どこかへ行きたくても、子どもがいるとすぐには動けない。1人ならなんとかなるかもしれませんが、2人3人となると移動しづらい。それでも歯医者は、虫歯にしても歯並びにしても、小さいうちから定期的に見ておいた方がいいところなんです」' },
+          { text: '当初は、人口分布から見て高齢者向けにする案も検討していました。それでも子どもを選んだのは、「自分にはお金をかけられなくても、子どもにはしっかり育ってほしい」と考える親の気持ちが、自分自身にもよく分かったからです。その世代の子どもと生活し、妻を間近で見ている。だからこそ、その世代の家族に合った治療ができるのではないかと考えました。' },
+          { text: '場所については、ある程度の台数が停められる駐車場があり、小学校や幼稚園も近くに多くあり、多くの子どもの治療に携われるのではないかと考え今の場所になりました。' } ] },
+        { heading: '高校を出て大工へ。30歳を過ぎて、もう一度大学へ', blocks: [
+          { text: '武井さんが大学を卒業したのは2013年。歯科医師としての経歴は13年ほどですが、それ以前はまったく違う世界にいました。大工です。' },
+          { text: '転機は30歳手前でした。大学に入って勉強したいという気持ちが芽生え、そこから受験勉強を再開。2007年に入学したときには、すでに30歳を過ぎていました。同級生は18歳です。' },
+          { q: '「大学生活は意外なほど仲良くしてもらって、楽しかったですね」' },
+          { text: '縁あって進んだのが歯学部でした。そして入ってみると、この領域はやはり面白かったと振り返ります。' },
+          { q: '「大工時代は直接お客様とのやり取りはなかったですが、歯科医師はお客様とダイレクトに繋がれて、『歯並びがよくなった』『自信を持って歯を出して笑えるようになった』といった言葉を直接聞けるようになったのは、やはりやりがいに感じます」' } ] },
+        { heading: '12年の勤務医時代と、上の子の小学校入学', blocks: [
+          { text: '卒業後は研修医として1年、麻酔の研修などを経て、病院勤務が始まりました。専門は歯科口腔外科。大学の講座が持つ関連病院を3年ごとに回る形だったため、愛知や静岡の病院を転々としました。' },
+          { text: '子どもが小さいうちは、その転勤生活でも問題ありませんでした。状況が変わったのは、上の子が小学校に上がる時期が近づいてきたときです。この先も3年ごとに移っていくことを考えると、家族で同じ形を続けるのは難しい。そのタイミングが、開業へと舵を切るきっかけになりました。' } ] },
+        { heading: '妹と2人、関西で始める', blocks: [
+          { text: '当時、武井さんがいたのは静岡でした。住みやすく、子どもも育てやすい環境だったため、開業するなら静岡か、関西に戻るかで迷っていたといいます。' },
+          { text: '背中を押したのは妻の言葉でした。年齢のことを考えると1人でやるよりも、歯科医師である妹さんと2人でやった方がいいのではないか——。声をかけてみると、妹さんも「一緒にやろうか」と応じてくれました。それで関西に帰ることが決まります。' },
+          { text: '開業したのは51歳のとき。歯科医師も医師も、開業は40代の中盤から後半が多い印象だといい、大学の同級生たちは35歳くらいから次々に自分の医院を持ち始めていました。' } ] },
+        { heading: '小児矯正は「歯並び」ではなく「土台」を育てる', blocks: [
+          { text: 'これから目指しているのは、この地域で小児矯正を考えたときに、一番に頭に浮かぶ医院になることです。それと同時に、歯科矯正そのものの必要性を地域に広めていきたいという思いがあります。' },
+          { text: '小児矯正とは何か。武井さんの説明は明快でした。' },
+          { q: '「歯並びをどうこうするというよりも、歯が並ぶ土台になる骨を、成長期に合わせて育てていくという考え方なんです」' },
+          { text: 'いわゆる一期矯正がこれにあたり、永久歯がスムーズに入れるように土台を広げていく段階です。すべて大人の歯になってから角度などを細かく整える場合は二期矯正となり、そこは成人矯正と同じ考え方になります。上顎の成長は10歳くらいで8〜9割が完成するため、そこまでにどれだけスペースを広げられるかが一つの勝負どころ。大人の歯が揃うのは12歳前後です。' },
+          { text: '土台に触れずに並べようとすると、スペースが足りないまま並べることになり、物理的な不足が起こりやすくなります。その場合、健康な歯を抜いてスペースを作るという選択肢が出てくることもあります。' },
+          { text: 'もっとも武井さんは、それを一律に否定はしません。何を目的に矯正をするかによって、最適な選択は変わってくるからです。口元の見た目をすっきり整えたいという希望であれば、そうした方法が合うこともある。ただ、自分の考え方としては——と、こう続けます。' },
+          { q: '「虫歯でもない、何も問題のない歯を抜くのは、できれば避けたい。極力抜かずに済むように顎を広げておいて、最終的に並べたいなら並べればいい、というのが私の考え方です」' } ] },
+        { heading: '歯並びの7割は、生まれつきではない', blocks: [
+          { text: '歯並びは遺伝で決まると思われがちですが、遺伝によるものは3割ほどだといわれています。残りの7割は、その年齢までの舌や唇の使い方によって、スペース不足に陥っているケースです。' },
+          { text: 'だからこの医院では、小児矯正に舌のトレーニングや呼吸のトレーニングを組み合わせています。理想的な舌の位置や嚥下の仕方が身についていれば、顎は理想的な位置に成長し、歯も綺麗に並んでくると言われているからです。根本の原因に働きかけるアプローチといえます。' },
+          { text: '小さい頃からこれをやっておくと、大人になって少し整えたいと思ったときにも、歯を抜かずに済む割合が高くなり、仕上がりの完成度も変わってくるといいます。' },
+          { q: '「余裕がない中でなんとか並べるのと、余裕がある中で並べていくのとでは違いますから」' },
+          { text: 'そして、こう言い切ります。' },
+          { q: '「天然の歯に勝る治療は、ありません。高い治療でも、一度やれば永遠に続くというものではない。金額に換算してもすごい価値があるものなので、極力抜かずに行けるなら、それが一番ベストかなと思っています」' } ] },
+        { heading: '地域に、歯の話を届けたい', blocks: [
+          { text: '口の中の状態は、地域や家庭ごとの習慣によって差が出ます。歯磨きの習慣や、歯への関心の持ち方が、そのまま結果に表れてくる。だからこそ、伝える余地はまだ大きいというのが武井さんの実感です。' },
+          { text: 'そのために、初回から半年ほどは毎月来てもらい、歯磨きの状態をチェックし、足りないところを一緒に確認していく。小児矯正についても、始める前の検査と診断は無料にすることによって、現状をしっかり理解し、歯並びの将来像までじっくり説明する時間をとっています。' } ] },
+        { heading: '「まずは目の前にあることを、しっかりとやれ」', blocks: [
+          { text: '最も影響を受けた人を尋ねると、開業前に勤務していた医院の院長の名前が挙がりました。もともと口腔外科時代の直属の上司で、その方が開業して3年ほど経った頃に、武井さんはその医院で働き始めます。' },
+          { text: '口腔外科は口の中の手術が専門ですから、虫歯治療のような領域は卒業後にあまり手がけていないはずです。それなのに、なぜこれだけの医院になっているのか。それを知りたくて飛び込んだのだといいます。' },
+          { q: '「口腔外科時代とはまた違う姿で、しっかりと指導していただきました」' },
+          { text: 'そこで学んだのは、やったことのないことでも、数を多くこなすことが一番だということでした。1日120人ほど来院する歯科医院で、一般的な歯科医療を他の医院と比べて2〜3倍のペースで経験することができました。' },
+          { q: '「丁寧な治療をやりたい、こういうお客様と向き合いたいと、はじめはいろいろな理想があると思います。ただ、そのもとになるスキルは、数をこなさない限り身につかない。これは他の職種でも同じだと思います。理想ばかり掲げて現状とのギャップを嘆くのではなく、まずは目の前にあることをしっかりとやれ、と」' },
+          { text: '働き始めた頃はまだ十分な技術がなかったという武井さんも、数を任せてもらえたことで、開業できるレベルまで引き上げてもらったと振り返ります。' },
+          { q: '「今の医院の土台をつくってくださったのはその院長なので、すごく尊敬していますし、感謝しています」' },
+          { text: '高校を出て大工になり、30歳を過ぎて大学へ戻り、12年の勤務医を経て51歳で開業する。一つひとつは遠回りに見える選択の連なりですが、そのすべてが、いま尼崎で子どもの歯と向き合う土台になっています。目の前にあることを、しっかりとやる。武井さんが恩師から受け取った言葉は、そのまま自身の来し方を言い当てているようにも聞こえました。' } ] },
+      ] },
+    { id: 'a1', featured: true, badge: 'Featured', category: 'DX / 経営戦略', title: '電子カルテ刷新と業務自動化で、診療時間を3割拡大した改革の全貌', person: '佐藤 健一 理事長', org: '医療法人社団 青葉会', date: '2026.06.12', imgHint: 'クリニック外観・院長写真', lead: '首都圏で5院を展開する青葉会。徹底したDX投資により、スタッフの残業を半減させながら診療枠を拡大した。その意思決定の裏側を聞いた。', profile: '2008年に青葉会を設立。内科・小児科を中心に首都圏で5院を展開。医療DXの実践者として講演多数。', body: [
+      { q: 'DX投資に踏み切ったきっかけを教えてください。', a: '看護師の離職面談で「患者さんではなく書類と向き合う時間が長い」と言われたことです。医療の質はスタッフの時間の使い方で決まる。そこから紙の業務を一つずつ棚卸ししました。' },
+      { q: '導入で最も苦労した点は？', a: 'システムよりも運用です。ベテランほど既存のやり方に習熟しているので、移行期間は二重運用を許容し、現場のリーダーに権限を渡して進めました。' },
+      { q: '今後の展望をお聞かせください。', a: '生成AIによる診療サマリー作成を全院に広げます。浮いた時間はすべて患者さんとの対話に還元する。それがこの投資の唯一の目的です。' } ] },
+    { id: 'a2', badge: 'Trending', category: 'ホスピタリティ', title: '「ホテルのような医療体験」を追求する自由診療クリニックの哲学', person: '山口 亮 院長', org: 'GINZA REGALE CLINIC', date: '2026.06.20', imgHint: '院長ポートレート', lead: '銀座で美容内科を営む山口院長は、接遇教育に年間予算の1割を投じる。「医療の価値は結果と体験の総和」と語るその真意とは。', profile: '大学病院勤務を経て2019年に開業。ホスピタリティ研修プログラム「REGALE Standard」を自院で開発。', body: [
+      { q: 'なぜ接遇にそこまで投資するのですか？', a: '自由診療は選ばれ続けなければ成立しません。技術の差が縮まる中で、患者さんの記憶に残るのは「どう扱われたか」です。' },
+      { q: '教育はどのように行っていますか？', a: '外部のホテル研修に加えて、月1回全スタッフでロールプレイをします。クレームではなく「感動した体験」を共有し合うのがポイントです。' } ] },
+    { id: 'a3', category: '在宅医療', title: '24時間対応を無理なく続ける、在宅医療チームの組織設計', person: '田村 美咲 理事長', org: '医療法人 ほしぞら会', date: '2026.05.28', imgHint: '訪問診療の様子', lead: '医師6名で年間400名超の在宅患者を支えるほしぞら会。バーンアウトを防ぐ当番設計と情報共有の仕組みを聞いた。', profile: '訪問診療専門クリニックを3拠点運営。地域包括ケアの実践者として自治体との連携事業も手がける。', body: [
+      { q: '24時間対応の負担をどう分散していますか？', a: '完全当番制にし、当番以外は絶対に鳴らさない。属人化を防ぐために、患者情報は全員が同じ深さで把握できるカルテ運用にしています。' },
+      { q: '採用で重視する点は？', a: '「チームで診る」ことに納得できるか。一人で抱え込むタイプの優秀さは、在宅では長続きしません。' } ] },
+    { id: 'a4', category: 'DX / 経営戦略', title: '分院展開の失敗から学んだ、理念が浸透する組織のつくり方', person: '中村 大輔 理事長', org: '医療法人 なかむら歯科グループ', date: '2026.05.15', imgHint: '診療室・チーム写真', lead: '一度は閉院も経験した中村理事長。現在は7院を安定運営する同グループの、理念浸透と権限移譲のリアル。', profile: '歯科医師。2012年開業、現在7院を運営。著書に『歯科医院の組織論』。', body: [
+      { q: '失敗の原因は何だったのでしょうか？', a: '私のコピーを作ろうとしたことです。院長ごとに強みは違う。理念だけ共有して、やり方は任せる方針に変えてから安定しました。' } ] },
+    { id: 'a5', category: '自由診療', title: '保険診療との両立で実現する、地域に開かれた自由診療のかたち', person: '藤井 沙織 院長', org: 'ふじい皮ふ科クリニック', date: '2026.04.30', imgHint: '受付・待合の写真', lead: '地方都市で保険診療と美容皮膚科を両立させる藤井院長。「地域の信頼が自由診療の土台」と語る経営観に迫る。', profile: '皮膚科専門医。2016年に地元で開業し、美容皮膚科部門を併設。', body: [
+      { q: '両立のポイントは？', a: '導線と告知を完全に分けることです。保険の患者さんに売り込まない。信頼が先、メニューは後です。' } ] },
+    { id: 'a6', category: 'ホスピタリティ', title: '小児科の待ち時間をゼロに近づける、予約体験の徹底改善', person: '岡本 拓也 院長', org: 'おかもとこどもクリニック', date: '2026.04.18', imgHint: 'キッズスペースの写真', lead: '「子連れの30分は大人の2時間」。予約システムと院内動線の改善で待ち時間を平均6分にした取り組み。', profile: '小児科専門医。2020年開業。地域の子育て支援NPOの理事も務める。', body: [
+      { q: 'まず何から着手しましたか？', a: '待ち時間の計測です。感覚ではなくデータで見ると、ボトルネックは診察ではなく会計と問診でした。' } ] },
+    { id: 'a7', category: '在宅医療', title: '多職種連携をなめらかにする、地域ネットワークの育て方', person: '早川 誠 理事長', org: '医療法人 つばさ会', date: '2026.04.02', imgHint: 'カンファレンスの様子', lead: 'ケアマネ・訪問看護・薬局をつなぐ独自の連携会議を月次開催。顔の見える関係づくりの実務を聞いた。', profile: '在宅医療歴15年。地域医療連携推進法人の設立にも参画。', body: [
+      { q: '連携で最初に壊すべき壁は？', a: '「医師に連絡しづらい」という空気です。私から挨拶に回り、携帯番号を渡すところから始めました。' } ] },
+    { id: 'a8', category: 'DX / 経営戦略', title: 'データドリブン経営で実現した、スタッフ主導の業務改善文化', person: '石田 亮平 院長', org: 'いしだ内科・循環器クリニック', date: '2026.03.20', imgHint: 'ミーティング風景', lead: '経営数値を全スタッフに開示し、改善提案が月20件生まれる組織へ。オープンブック経営の実践録。', profile: '循環器内科医。2015年開業。医療経営学の社会人大学院を修了。', body: [
+      { q: '数値開示に抵抗はありませんでしたか？', a: 'ありました。ただ隠すと「経営は院長の仕事」になってしまう。開示してから、スタッフの提案の質が一気に変わりました。' } ] },
+  ];
+
+  renderVals() {
+    const { view, tab, articleId } = this.state;
+    const showBadges = this.props.showBadges ?? true;
+    const showFeatured = this.props.showFeatured ?? true;
+    const showCta = this.props.showCta ?? true;
+    const cats = ['すべて', '小児歯科・矯正', 'DX / 経営戦略', 'ホスピタリティ', '在宅医療', '自由診療'];
+    const deco = a => ({
+      ...a,
+      imgId: 'img-' + a.id, avatarId: 'av-' + a.id, initial: a.person.charAt(0),
+      hasPhoto: !!a.photo, noPhoto: !a.photo,
+      coverStyle: { width: '100%', height: '100%', backgroundImage: 'url(' + a.photo + ')', backgroundSize: 'cover', backgroundPosition: '50% 30%' },
+      heroStyle: { width: '100%', height: '460px', backgroundImage: 'url(' + a.photo + ')', backgroundSize: 'cover', backgroundPosition: '50% 38%' },
+      avatarStyle: { width: '100%', height: '100%', backgroundImage: 'url(' + a.photo + ')', backgroundSize: 'cover', backgroundPosition: '50% 28%' },
+      showBadge: showBadges && !!a.badge,
+      open: () => { this.setState({ view: 'article', articleId: a.id }); window.scrollTo(0, 0); },
+    });
+    const filtered = this.data.filter(a => tab === 'すべて' || a.category === tab);
+    const featured = filtered.filter(a => a.featured).map(deco);
+    const rest = (showFeatured ? filtered.filter(a => !a.featured) : filtered).map(deco);
+    const curRaw = this.data.find(a => a.id === articleId) || this.data[0];
+    const cur = deco(curRaw);
+    const nav = (name, active) => ({
+      ['nav' + name + 'Weight']: active ? 700 : 400,
+      ['nav' + name + 'Color']: active ? '#0f172a' : '#64748b',
+      ['nav' + name + 'Border']: active ? '#1d4ed8' : 'transparent',
+    });
+    return {
+      isHome: view === 'home', isArticle: view === 'article', isAbout: view === 'about', isMedia: view === 'media',
+      goHome: () => { this.setState({ view: 'home' }); window.scrollTo(0, 0); },
+      goAbout: () => { this.setState({ view: 'about' }); window.scrollTo(0, 0); },
+      goMedia: () => { this.setState({ view: 'media' }); window.scrollTo(0, 0); },
+      ...nav('Home', view === 'home' || view === 'article'),
+      ...nav('About', view === 'about'),
+      ...nav('Media', view === 'media'),
+      tabs: cats.map(c => ({
+        label: c,
+        weight: c === tab ? 700 : 400,
+        color: c === tab ? '#0f172a' : '#64748b',
+        border: c === tab ? '#1d4ed8' : 'transparent',
+        select: () => this.setState({ tab: c }),
+      })),
+      showFeatured: showFeatured && featured.length > 0,
+      showCta,
+      featured,
+      articles: rest,
+      cur, curBody: cur.body || [],
+      curSections: (cur.sections || []).map(s => ({
+        heading: s.heading,
+        blocks: s.blocks.map(b => ({ text: b.q || b.text, isQuote: !!b.q, isPara: !b.q })),
+      })),
+      contactLabel: this.state.sent ? '送信しました（デモ）' : '送信する',
+      submitContact: () => this.setState({ sent: true }),
+    };
+  }
+}
+</script>
+</body>
+</html>
