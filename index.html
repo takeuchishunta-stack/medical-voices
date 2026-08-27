@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Medical Voices｜医療の未来を創る、経営者の声を届ける。</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231d4ed8'/%3E%3Ctext x='16' y='23' font-family='Arial,sans-serif' font-weight='900' font-size='19' fill='%23fff' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+<meta name="description" content="日本全国の先進的なクリニック・医療法人の経営者にフォーカス。成功の裏側にある戦略と想いを共有し、より良い医療環境の構築を支援するインタビューメディア。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=1311be23">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-logo" id="logo-link">
+    <div class="site-logo-mark">M</div>
+    <div class="site-logo-text">Medical Voices</div>
+  </div>
+  <nav class="site-nav">
+    <button type="button" id="nav-home">インタビュー記事</button>
+    <button type="button" id="nav-about">掲載について</button>
+    <button type="button" id="nav-media">メディア概要</button>
+  </nav>
+  <button type="button" class="header-cta" id="header-cta">掲載依頼・相談</button>
+</header>
+
+<main>
+
+  <!-- Home view -->
+  <section id="view-home">
+    <div class="hero">
+      <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>経営者のためのメディア</div>
+      <h1 class="hero-title">医療の未来を創る、<br>経営者の声を届ける。</h1>
+      <p class="hero-desc">日本全国の先進的なクリニック・医療法人の経営者にフォーカス。成功の裏側にある戦略と想いを共有し、より良い医療環境の構築を支援します。</p>
+    </div>
+
+    <div class="tab-bar-wrap">
+      <div id="tab-bar" class="tab-bar"></div>
+    </div>
+
+    <div id="featured-grid" class="featured-grid"></div>
+
+    <div id="article-grid" class="article-grid"></div>
+
+    <div id="no-results" class="no-results"></div>
+
+    <div class="home-cta">
+      <div class="home-cta-title">貴院の取り組みを、次の世代へ。</div>
+      <p class="home-cta-desc">Medical Voices では掲載を希望される医療法人・クリニックを募集しています。まずはお気軽にご相談ください。</p>
+      <button type="button" class="home-cta-button" id="home-cta-button">掲載依頼・相談する</button>
+    </div>
+  </section>
+
+  <!-- Article view -->
+  <section id="view-article" class="article-view is-hidden">
+    <button type="button" class="article-back" id="article-back-link">← インタビュー記事一覧へ戻る</button>
+    <div class="card-category" id="article-category"></div>
+    <h1 class="article-title" id="article-title"></h1>
+    <div class="article-byline-row">
+      <div class="avatar" id="article-avatar"></div>
+      <div>
+        <div class="article-byline-name" id="article-person"></div>
+        <div class="article-byline-meta" id="article-meta"></div>
+      </div>
+    </div>
+    <div class="article-hero" id="article-hero"></div>
+    <p class="article-lead" id="article-lead"></p>
+    <div class="article-body" id="article-body"></div>
+    <div class="article-profile-box">
+      <div class="article-profile-label">PROFILE</div>
+      <div class="article-profile-name" id="article-profile-name"></div>
+      <p class="article-profile-text" id="article-profile-text"></p>
+    </div>
+  </section>
+
+  <!-- About / contact view -->
+  <section id="view-about" class="static-view is-hidden">
+    <div class="card-category">掲載について</div>
+    <h1>掲載のご依頼・ご相談</h1>
+    <p>Medical Voices では、先進的な取り組みを行う医療法人・クリニックの経営者インタビューを随時掲載しています。取材から記事制作・公開まで、編集部が一貫してサポートします。</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-title">お問い合わせ</div>
+        <div class="step-desc">フォームより掲載希望の旨をご連絡ください。</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-title">取材・撮影</div>
+        <div class="step-desc">オンラインまたは訪問にてインタビューを実施します。</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-title">記事公開</div>
+        <div class="step-desc">ご確認をいただいたのち、記事を公開します。</div>
+      </div>
+    </div>
+    <form class="contact-box" id="contact-form">
+      <div class="contact-box-title">お問い合わせフォーム</div>
+      <input type="text" placeholder="法人・クリニック名" required>
+      <input type="text" placeholder="ご担当者名" required>
+      <input type="email" placeholder="メールアドレス" required>
+      <textarea placeholder="ご相談内容" rows="4"></textarea>
+      <button type="submit" class="contact-submit" id="contact-submit">送信する</button>
+    </form>
+  </section>
+
+  <!-- Media overview view -->
+  <section id="view-media" class="static-view is-hidden">
+    <div class="card-category">メディア概要</div>
+    <h1>Medical Voices とは</h1>
+    <p>Medical Voices は、医療法人・クリニックの経営者の声を届けるインタビューメディアです。経営戦略、組織づくり、地域医療への想い——現場のリアルな知見を発信し、医療業界全体の発展に貢献します。</p>
+    <div class="media-table">
+      <div class="k">メディア名</div>
+      <div class="v">Medical Voices（メディカルボイス）</div>
+      <div class="k">対象</div>
+      <div class="v">医療法人・クリニックの経営者、医療従事者</div>
+      <div class="k">主なテーマ</div>
+      <div class="v">DX / 経営戦略、ホスピタリティ、在宅医療、自由診療</div>
+      <div class="k row-last">運営</div>
+      <div class="v row-last">Medical Voices 編集部</div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer-brand">
+    <div class="site-footer-mark">M</div>
+    <span class="site-footer-name">Medical Voices</span>
+  </div>
+  <div>© 2026 Medical Voices 編集部</div>
+</footer>
+
+<script src="js/main.js?v=1311be23"></script>
+</body>
+</html>

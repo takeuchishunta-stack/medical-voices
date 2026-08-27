@@ -1,0 +1,51 @@
+# Medical Voices の Netlify 設定。
+# ダッシュボード設定よりこのファイルが優先されるため、公開設定はここで一元管理する。
+
+[build]
+  # ビルド不要の静的サイト。
+  publish = "."
+  command = ""
+
+# 公開ディレクトリに入ってしまう運用ファイルは URL から到達できないようにする。
+[[redirects]]
+  from = "/scripts/*"
+  to = "/404.html"
+  status = 404
+
+# Claude Design のハンドオフ一式（元プロトタイプ・チャット記録）。参考資料として
+# リポジトリには残すが、公開サイトの URL からは到達できないようにする。
+[[redirects]]
+  from = "/design-handoff/*"
+  to = "/404.html"
+  status = 404
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# 画像もキャッシュさせない。写真を差し替えるときは同じファイル名のまま
+# 中身だけ入れ替える運用なので、長く持たせると再訪問者に古い写真が出続ける。
+# ETag による問い合わせは残るため、中身が変わっていなければ 304 が返り、
+# 実際の転送量はほとんど増えない。
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# css/ と js/ はキャッシュしない。理由が2つある。
+#   1. js/articles.json が記事データ本体で、長く持たせると記事の追加が読者に届かない
+#   2. CSS と JS は組で更新されることがある。片方だけ古いままだと、
+#      新しい markup を古いスタイルで描画してレイアウトが崩れる
+# どちらも小さいファイルなので、取り直させても実害はない。
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
