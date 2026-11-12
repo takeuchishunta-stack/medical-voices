@@ -26,7 +26,7 @@
   // Fixed display order for the categories the site launched with; any new
   // category added later in articles.json is appended after these, in the
   // order it first appears (newest article first).
-  var CATEGORY_ORDER = ['小児歯科・矯正', 'DX / 経営戦略', 'ホスピタリティ', '在宅医療', '自由診療'];
+  var CATEGORY_ORDER = ['小児歯科・矯正', 'DX / 経営戦略', 'ホスピタリティ', '在宅医療', '自由診療', '予防歯科'];
 
   function categoryList() {
     var present = [];
